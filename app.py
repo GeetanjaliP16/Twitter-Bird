@@ -269,6 +269,84 @@ def plot_pngFinal5():
     img.seek(0)
     return send_file(img, mimetype='image/png')
 
+#Filtering Tweets
+@app.route('/FilterTweets',methods=['GET','POST'])
+def filterFormGet():
+    if request.method=='POST':
+        #Get from form
+        filterForm=request.form.get('dropdownMenuButton2')
+        specification=request.form['specification']
+
+        #Function to generate twitter link
+        def generateURL(User,ID):
+            links=[]
+            for i in range(len(User)):
+                links.append(f"twitter.com/{User[i]}/status/{ID[i]}")
+            return links
+        
+        #Emotion Filter chosen
+        if(filterForm=='emotionFilter'):
+            happyId=[]
+            angryId=[]
+            surpriseId=[]
+            sadId=[]
+            fearId=[]
+
+            happyUser=[]
+            angryUser=[]
+            surpriseUser=[]
+            sadUser=[]
+            fearUser=[]
+
+            for i in range(len(df)):
+                temp=te.get_emotion(df['tweet_clean'][i])
+                tempVal= list(temp.values())
+                if(tempVal[0]==0 and tempVal[1]==0 and tempVal[2]==0 and tempVal[3]==0 and tempVal[4]==0):
+                    pass
+                else:
+                    if(tempVal[0]>0):
+                        happyId.append(df['id'][i])
+                        happyUser.append(df['User'][i])
+                    if(tempVal[1]>0):
+                        angryId.append(df['id'][i])
+                        angryUser.append(df['User'][i])
+                    if(tempVal[2]>0):
+                        surpriseId.append(df['id'][i])
+                        surpriseUser.append(df['User'][i])
+                    if(tempVal[3]>0):
+                        sadId.append(df['id'][i])
+                        sadUser.append(df['User'][i])
+                    if(tempVal[4]>0):
+                        fearId.append(df['id'][i])
+                        fearUser.append(df['User'][i])
+                    else:
+                        pass
+            #Filter tweets by emotion
+            emotion=specification
+            if(emotion=='Happy'):
+                print(generateURL(happyId,happyUser))
+            elif(emotion=="Angry"):
+                print(generateURL(angryId,angryUser))
+            elif(emotion=="Surprised"):
+                print(generateURL(surpriseId,surpriseUser))
+            elif(emotion=="Sad"):
+                print(generateURL(sadId,sadUser))
+            elif(emotion=="Fear"):
+                print(generateURL(fearId,fearUser))
+
+
+        elif(filterForm=='wordFilter'):
+            print('2')
+        elif(filterForm=='likesFilter'):
+            print('3')
+        elif(filterForm=='sentimentFilter'):
+            print('4')
+        elif(filterForm=='dateFilter'):
+            print('5')
+        else:
+            print('Filter by date')
+    return render_template('FilterTweets.html')
+
 @app.route('/TwilioForm',methods=['GET','POST'])
 def TwilioForm():
     if request.method=="POST":
