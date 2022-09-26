@@ -334,9 +334,33 @@ def filterFormGet():
             elif(emotion=="Fear"):
                 print(generateURL(fearId,fearUser))
 
-
+        #Filter tweets by words
         elif(filterForm=='wordFilter'):
-            print('2')
+            foundName=[]
+            sentimentOfName=[]
+            nameId=[]
+            nameUser=[]
+
+            name=specification
+            for i in range(len(df)):
+                for j in df['tweet_clean'][i].split():
+                    if(j==name):
+                        foundName.append(i)
+
+            for i in foundName:
+                    temp1=df['id'].loc[[i]]
+                    nameId.append(list(temp1.values))
+                    
+                    temp2=df['User'].loc[[i]]
+                    nameUser.append(list(temp2.values))
+                    sentimentOfName.append(df['sentiment'][i])
+            else:
+                pass
+            nameId = [val for sublist in nameId for val in sublist]
+            nameUser = [val for sublist in nameUser for val in sublist]
+            print(generateURL(nameId,nameUser))   
+
+        #Likes Filter      
         elif(filterForm=='likesFilter'):
             print('3')
         elif(filterForm=='sentimentFilter'):
