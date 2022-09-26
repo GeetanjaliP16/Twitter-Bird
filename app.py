@@ -278,7 +278,7 @@ def filterFormGet():
         specification=request.form['specification']
 
         #Function to generate twitter link
-        def generateURL(User,ID):
+        def generateURL(ID,User):
             links=[]
             for i in range(len(User)):
                 links.append(f"twitter.com/{User[i]}/status/{ID[i]}")
@@ -321,7 +321,7 @@ def filterFormGet():
                         fearUser.append(df['User'][i])
                     else:
                         pass
-            #Filter tweets by emotion
+
             emotion=specification
             if(emotion=='Happy'):
                 print(generateURL(happyId,happyUser))
@@ -362,7 +362,15 @@ def filterFormGet():
 
         #Likes Filter      
         elif(filterForm=='likesFilter'):
-            print('3')
+            greaterLikesId=[]
+            greaterLikesUser=[]
+            likeCount=int(specification)
+            for i in range(len(df)):
+                if(df['Total Likes'][i]>likeCount):
+                    greaterLikesId.append(df['id'][i])
+                    greaterLikesUser.append(df['User'][i])
+            print(generateURL(greaterLikesId,greaterLikesUser))
+        
         elif(filterForm=='sentimentFilter'):
             print('4')
         elif(filterForm=='dateFilter'):
