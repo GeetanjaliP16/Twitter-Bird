@@ -195,7 +195,7 @@ def plot_pngFinal1():
                autopct="%1.1f%%", pctdistance=0.7, textprops={'fontsize': 10})
 
     plt.title("Sentiment Percentage",fontsize=15)
-    plt.legend(fontsize=12)   
+    plt.legend(fontsize=10)   
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
