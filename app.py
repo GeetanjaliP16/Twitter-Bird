@@ -275,6 +275,7 @@ def plot_pngFinal5():
 #Filtering Tweets
 @app.route('/FilterTweets',methods=['GET','POST'])
 def filterFormGet():
+    result=[]
     if request.method=='POST':
         #Get from form
         filterForm=request.form.get('dropdownMenuButton2')
@@ -445,4 +446,4 @@ def TwilioForm():
 
 # main driver function
 if __name__ == '__main__':
-	app.run()
+	app.run(debug=True)
