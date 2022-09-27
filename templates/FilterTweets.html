@@ -214,13 +214,16 @@
             </center>
             <center>
             <br><h3><u>Filtered Tweets</u></h3><br>
+
+            {% for res in result %}
+            <li>{{ res }}</li>
+            {% endfor %}
+
             <div id="twitter-widget-holder">
             <blockquote class="twitter-tweet">
             <a href="https://twitter.com/SpaceX/status/1573846653320192002"></a> 
             </blockquote>
-            <blockquote class="twitter-tweet">
-            <a href="https://twitter.com/SpaceX/status/1573846653320192002"></a> 
-            </blockquote>
+
             </div>
             </center>
             <br><br>

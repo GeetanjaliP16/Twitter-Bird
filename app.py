@@ -327,15 +327,15 @@ def filterFormGet():
 
             emotion=specification
             if(emotion=='Happy'):
-                print(generateURL(happyId,happyUser))
+                result=generateURL(happyId,happyUser)
             elif(emotion=="Angry"):
-                print(generateURL(angryId,angryUser))
+                result=generateURL(angryId,angryUser)
             elif(emotion=="Surprised"):
-                print(generateURL(surpriseId,surpriseUser))
+                result=generateURL(surpriseId,surpriseUser)
             elif(emotion=="Sad"):
-                print(generateURL(sadId,sadUser))
+                result=generateURL(sadId,sadUser)
             elif(emotion=="Fear"):
-                print(generateURL(fearId,fearUser))
+                result=generateURL(fearId,fearUser)
 
         #Filter tweets by words
         elif(filterForm=='wordFilter'):
@@ -361,7 +361,7 @@ def filterFormGet():
                 pass
             nameId = [val for sublist in nameId for val in sublist]
             nameUser = [val for sublist in nameUser for val in sublist]
-            print(generateURL(nameId,nameUser))   
+            result=generateURL(nameId,nameUser)
 
         #Likes Filter      
         elif(filterForm=='likesFilter'):
@@ -372,7 +372,7 @@ def filterFormGet():
                 if(df['Total Likes'][i]>likeCount):
                     greaterLikesId.append(df['id'][i])
                     greaterLikesUser.append(df['User'][i])
-            print(generateURL(greaterLikesId,greaterLikesUser))
+            result=generateURL(greaterLikesId,greaterLikesUser)
 
         #Filter tweets by sentiment (positive negative nuetral)
         elif(filterForm=='sentimentFilter'):
@@ -402,7 +402,7 @@ def filterFormGet():
             sentId = [val for sublist in sentId for val in sublist]
             sentUser = [val for sublist in sentUser for val in sublist]
 
-            print(generateURL(sentId,sentUser))
+            result=generateURL(sentId,sentUser)
 
         #Tweets after a particular date
         elif(filterForm=='dateFilter'):
@@ -413,10 +413,11 @@ def filterFormGet():
             for i in range(len(FilteredByDate)):
                 filteredByDateId.append(df['id'][i])
                 filteredByDateUser.append(df['User'][i])
-            print(generateURL(filteredByDateId,filteredByDateUser))
+            result=generateURL(filteredByDateId,filteredByDateUser)
         else:
             print('Filter by date')
-    return render_template('FilterTweets.html')
+
+    return render_template('FilterTweets.html',result=result)
 
 @app.route('/TwilioForm',methods=['GET','POST'])
 def TwilioForm():
