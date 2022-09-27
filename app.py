@@ -18,6 +18,8 @@ nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import re
 import seaborn as sns
+import itertools
+import math
 
 
 API_KEY="eM8GCF0S3xZj0AmEsMsrjB9kZ"
@@ -172,6 +174,7 @@ def hello_world():
     maxSent=df['sentiment'].max()
     minSent=df['sentiment'].min()
     avgSent=df['sentiment'].mean()
+    avgSent=round(avgSent,2)
     totSent=df['sentiment'].count()
 
 
@@ -370,11 +373,47 @@ def filterFormGet():
                     greaterLikesId.append(df['id'][i])
                     greaterLikesUser.append(df['User'][i])
             print(generateURL(greaterLikesId,greaterLikesUser))
-        
+
+        #Filter tweets by sentiment (positive negative nuetral)
         elif(filterForm=='sentimentFilter'):
-            print('4')
+            sentTweets=[]
+            sentId=[]
+            sentUser=[]
+            sent=specification
+
+            for i in range(len(df)):
+                if(sent=='positive' and df['sentiment_category'][i]=='positive'):
+                    sentTweets.append(i)
+                elif(sent=='negative' and df['sentiment_category'][i]=='negative'):
+                    sentTweets.append(i)
+                elif(sent=='neutral' and df['sentiment_category'][i]=='neutral'):
+                    sentTweets.append(i)
+                else:
+                    pass
+                
+            for i in sentTweets:
+                temp=df['id'].loc[[i]]
+                temp1=df['User'].loc[[i]]
+                temp2=list(temp.values)
+                temp3=list(temp1.values)
+                sentId.append(temp2)
+                sentUser.append(temp3)
+
+            sentId = [val for sublist in sentId for val in sublist]
+            sentUser = [val for sublist in sentUser for val in sublist]
+
+            print(generateURL(sentId,sentUser))
+
+        #Tweets after a particular date
         elif(filterForm=='dateFilter'):
-            print('5')
+            filteredByDateId=[]
+            filteredByDateUser=[]
+            startDate=specification
+            FilteredByDate = df[(df['date']>=startDate)]
+            for i in range(len(FilteredByDate)):
+                filteredByDateId.append(df['id'][i])
+                filteredByDateUser.append(df['User'][i])
+            print(generateURL(filteredByDateId,filteredByDateUser))
         else:
             print('Filter by date')
     return render_template('FilterTweets.html')
