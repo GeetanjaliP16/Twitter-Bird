@@ -220,10 +220,10 @@
 
             {% for res in result %}
             <blockquote class="twitter-tweet">
-            <a href="{{res}}"></a> 
+            <a href="{{ ''.join(['http://', res])}}"></a> 
             </blockquote>
             {% endfor %}
-            
+
             </div>
             </center>
             <br><br>
